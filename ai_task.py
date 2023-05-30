@@ -3,9 +3,11 @@ import cv2  # Install opencv-python
 import numpy as np
 
 
-class Task1:
-    def __init__(self):
+class Aitask:
+    def __init__(self, get_image):
         print("Init task 1")
+
+        self.get_image = get_image
 
         np.set_printoptions(suppress=True)
         # Disable scientific notation for clarity
@@ -17,22 +19,14 @@ class Task1:
         self.class_names = open("labels.txt", "r").readlines()
 
         # CAMERA can be 0 or 1 based on default camera of your computer
-        self.camera = cv2.VideoCapture(1)
+        # self.camera = cv2.VideoCapture(1)
 
         return
 
-    def Task1_Run(self):
+    def run(self):
         print("Task 1 is running!!!")
 
-        # Grab the webcamera's image.
-        ret, image = self.camera.read()
-
-        # Resize the raw image into (224-height,224-width) pixels
-        image = cv2.resize(image, (224, 224), interpolation=cv2.INTER_AREA)
-
-        # Show the image in a window
-        cv2.imshow("Webcam Image", image)
-
+        image = self.get_image()
         # Make the image a numpy array and reshape it to the models input shape.
         image = np.asarray(image, dtype=np.float32).reshape(1, 224, 224, 3)
 
@@ -48,4 +42,3 @@ class Task1:
         # Print prediction and confidence score
         print("Class:", class_name[2:], end="")
         print("Confidence Score:", str(np.round(confidence_score * 100))[:-2], "%")
-        cv2.waitKey(1)
