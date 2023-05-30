@@ -17,7 +17,7 @@ class Task1:
         self.class_names = open("labels.txt", "r").readlines()
 
         # CAMERA can be 0 or 1 based on default camera of your computer
-        self.camera = cv2.VideoCapture(0)
+        self.camera = cv2.VideoCapture(1)
 
         return
 
@@ -31,7 +31,7 @@ class Task1:
         image = cv2.resize(image, (224, 224), interpolation=cv2.INTER_AREA)
 
         # Show the image in a window
-        # cv2.imshow("Webcam Image", image)
+        cv2.imshow("Webcam Image", image)
 
         # Make the image a numpy array and reshape it to the models input shape.
         image = np.asarray(image, dtype=np.float32).reshape(1, 224, 224, 3)
@@ -48,3 +48,4 @@ class Task1:
         # Print prediction and confidence score
         print("Class:", class_name[2:], end="")
         print("Confidence Score:", str(np.round(confidence_score * 100))[:-2], "%")
+        cv2.waitKey(1)
